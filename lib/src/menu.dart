@@ -58,6 +58,10 @@ req.send();
           value: _MenuOptions.userAgent,
           child: Text('Show user-agent'),
         ),
+        const PopupMenuItem<_MenuOptions>(
+          value: _MenuOptions.javascriptChannel,
+          child: Text('Lookup IP Address'),
+        ),
       ],
     );
   }
