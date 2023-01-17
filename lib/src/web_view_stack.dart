@@ -15,39 +15,41 @@ class _WebViewStackState extends State<WebViewStack> {
   @override
   void initState() {
     super.initState();
-    widget.controller.setNavigationDelegate(
-      NavigationDelegate(
-        onPageStarted: (url) {
-          setState(() {
-            loadingPercentage = 0;
-          });
-        },
-        onProgress: (progress) {
-          setState(() {
-            loadingPercentage = progress;
-          });
-        },
-        onPageFinished: (url) {
-          setState(() {
-            loadingPercentage = 100;
-          });
-        },
-        onNavigationRequest: (navigation) {
-          final host = Uri.parse(navigation.url).host;
-          if (host.contains('youtube.com')) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Blocking navigation to $host',
+    widget.controller
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (url) {
+            setState(() {
+              loadingPercentage = 0;
+            });
+          },
+          onProgress: (progress) {
+            setState(() {
+              loadingPercentage = progress;
+            });
+          },
+          onPageFinished: (url) {
+            setState(() {
+              loadingPercentage = 100;
+            });
+          },
+          onNavigationRequest: (navigation) {
+            final host = Uri.parse(navigation.url).host;
+            if (host.contains('youtube.com')) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Blocking navigation to $host',
+                  ),
                 ),
-              ),
-            );
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-      ),
-    );
+              );
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..setJavaScriptMode(JavaScriptMode.unrestricted);
   }
 
   @override
